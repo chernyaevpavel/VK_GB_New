@@ -36,14 +36,6 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell, ChangeStatusLikeProto
         } else {
             self.photo.image = UIImage(named: "no-image")
         }
-        
-        
-//        let image = UIImage(named: likePhoto.photo.name)
-//        if let tmpImage = image {
-//            photo.image = tmpImage
-//        } else {
-//            photo.image = UIImage(named: "no-image")
-//        }
     }
     
     func changeStatusLike(status: Bool) {

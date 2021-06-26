@@ -18,22 +18,23 @@ class FriendViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(name: String, avatar: String?, status: TimeInterval?) {
-        self.name.text = name
-        self.status.text = ""
-//        if let statusInterval = status {
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//            let myString = formatter.string(from: Date(timeIntervalSince1970: statusInterval))
-//            self.status.text  = myString
-//        }
-//        switch status {
-//        case .onLine:
-//            self.status.textColor = UIColor(named: "colorDarkGreen")
-//        case .offLine:
-//            self.status.textColor = .red
-//        }
-        if let avatar = avatar {
+    func configure(friend: User){
+        self.name.text = "\(friend.firstName) \(friend.lastName)"
+        var status: Status = .offLine
+            switch friend.online {
+            case 1:
+                status = .onLine
+            default:
+                status = .offLine
+            }
+        self.status.text = status.rawValue
+        switch status {
+        case .onLine:
+            self.status.textColor = UIColor(named: "colorDarkGreen")
+        case .offLine:
+            self.status.textColor = .red
+        }
+        if let avatar = friend.photo200_Orig {
             let url = URL(string: avatar)
             apiService.downloadImage(from: url!) { data in
                 self.avatar.avatarImage.image = UIImage(data: data)
@@ -41,10 +42,5 @@ class FriendViewCell: UITableViewCell {
         } else {
             self.avatar.avatarImage.image = UIImage(named: "no-image")
         }
-//        if let tmpImage = avatar {
-//            self.avatar.avatarImage.image = tmpImage
-//        } else {
-//            self.avatar.avatarImage.image = UIImage(named: "no-image")
-//        }
     }
 }

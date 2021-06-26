@@ -25,8 +25,7 @@ class UserGroupTableViewCell: UITableViewCell {
     func configure(_ group: Group) {
         groupName.text = group.name
         groupDescription.text = ""
-        
-        
+    
         if let avatar = group.photo200 {
             let url = URL(string: avatar)
             apiService.downloadImage(from: url!) { data in
@@ -35,12 +34,6 @@ class UserGroupTableViewCell: UITableViewCell {
         } else {
             groupImage.image = UIImage(named: "no-image")
         }
-//        groupDescription.text = group.description
-//        if let named = group.image {
-//            groupImage.image = UIImage(named: named)
-//        } else {
-//            groupImage.image = UIImage(named: "no-image")
-//        }
         groupImage.layer.cornerRadius = groupImage.frame.size.width / 2
         groupImage.layer.masksToBounds = true
     }

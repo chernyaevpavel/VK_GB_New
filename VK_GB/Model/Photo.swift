@@ -21,6 +21,7 @@
 //   let photoResponse = try? newJSONDecoder().decode(PhotoResponse.self, from: jsonData)
 
 import Foundation
+import RealmSwift
 
 // MARK: - PhotoResponse
 struct PhotoResponse: Codable {
@@ -35,46 +36,30 @@ struct ResponsePhoto: Codable {
 }
 
 // MARK: - Item
-struct Photo: Codable {
-    let id: Int
-    let photo2560, photo807: String?
-    let realOffset: Int
-    let photo1280: String?
-    let likes: Likes
-    let photo604: String
-    let reposts: Reposts
-    let photo130: String?
-    let date, ownerID: Int
-    let text: String
-    let hasTags: Bool
-    let albumID: Int
-    let photo75: String
-    let postID: Int?
+class Photo: Object, Codable {
+    @objc dynamic var id: Int
+    @objc dynamic var photo2560, photo807: String?
+    @objc dynamic var photo1280: String?
+    @objc dynamic var likes: Likes
+    @objc dynamic var photo604: String?
+    @objc dynamic var photo130: String?
 
     enum CodingKeys: String, CodingKey {
         case id
         case photo2560 = "photo_2560"
         case photo807 = "photo_807"
-        case realOffset = "real_offset"
         case photo1280 = "photo_1280"
         case likes
         case photo604 = "photo_604"
-        case reposts
         case photo130 = "photo_130"
-        case date
-        case ownerID = "owner_id"
-        case text
-        case hasTags = "has_tags"
-        case albumID = "album_id"
-        case photo75 = "photo_75"
-        case postID = "post_id"
     }
 }
 
 // MARK: - Likes
-struct Likes: Codable {
-    let userLikes, count: Int
-
+class Likes: Object, Codable {
+    @objc dynamic var userLikes: Int
+    @objc dynamic var count: Int
+    
     enum CodingKeys: String, CodingKey {
         case userLikes = "user_likes"
         case count

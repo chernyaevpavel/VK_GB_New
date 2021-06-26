@@ -113,7 +113,7 @@ struct FillFakeData {
     }
     
     static func fillNews() -> [News] {
-        var arr = [News]()
+        let arr = [News]()
         
 //        var news = News(header: "Глава Минздрава, поиски которого велись три дня, сам вышел из леса",
 //                        news: """

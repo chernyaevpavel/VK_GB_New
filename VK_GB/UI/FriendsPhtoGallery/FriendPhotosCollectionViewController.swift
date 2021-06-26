@@ -10,7 +10,6 @@ import UIKit
 class FriendPhotosCollectionViewController: UICollectionViewController, ChangeStatusLikeObjectProtocol  {
     
     var friendID: Int = 0
-//    var friendPhotos: [LikePhoto] = []
     var friendPhotos: [Photo] = []
     private let apiService = APIService()
     
