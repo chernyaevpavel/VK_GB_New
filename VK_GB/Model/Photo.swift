@@ -40,9 +40,10 @@ class Photo: Object, Codable {
     @objc dynamic var id: Int
     @objc dynamic var photo2560, photo807: String?
     @objc dynamic var photo1280: String?
-    @objc dynamic var likes: Likes
+    @objc dynamic var likes: Likes?
     @objc dynamic var photo604: String?
     @objc dynamic var photo130: String?
+    @objc dynamic var data: Data?
 
     enum CodingKeys: String, CodingKey {
         case id

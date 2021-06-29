@@ -23,7 +23,7 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell, ChangeStatusLikeProto
     
     func configure(photo: Photo) {
         self.likePhoto = photo
-        likeControl.countLike = photo.likes.count
+        likeControl.countLike = photo.likes?.count ?? 0
         likeControl.isLike = false
         likeControl.delegate = self
         likeControl.drawControl()
