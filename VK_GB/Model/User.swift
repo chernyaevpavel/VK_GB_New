@@ -25,6 +25,12 @@ class User: Object, Codable {
     @objc dynamic var photo200_Orig: String?
     @objc dynamic var online: Int
 
+    var status: Status {
+        get {
+            return online == 1 ? Status.onLine : Status.offLine
+        }        
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, online
         case photo200_Orig = "photo_200_orig"

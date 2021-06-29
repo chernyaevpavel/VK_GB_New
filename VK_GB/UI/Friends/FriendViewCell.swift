@@ -20,15 +20,8 @@ class FriendViewCell: UITableViewCell {
     
     func configure(friend: User){
         self.name.text = "\(friend.firstName) \(friend.lastName)"
-        var status: Status = .offLine
-            switch friend.online {
-            case 1:
-                status = .onLine
-            default:
-                status = .offLine
-            }
-        self.status.text = status.rawValue
-        switch status {
+        self.status.text = friend.status.rawValue
+        switch friend.status {
         case .onLine:
             self.status.textColor = UIColor(named: "colorDarkGreen")
         case .offLine:
