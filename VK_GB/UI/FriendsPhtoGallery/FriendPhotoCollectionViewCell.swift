@@ -28,14 +28,9 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell, ChangeStatusLikeProto
         likeControl.delegate = self
         likeControl.drawControl()
         
-        if let urlPhoto = photo.photo807 {
-            let url = URL(string: urlPhoto)
-            apiService.downloadImage(from: url!) { data in
-                self.photo.image = UIImage(data: data)
-            }
-        } else {
-            self.photo.image = UIImage(named: "no-image")
-        }
+        guard let strURL = photo.photo807 else { return }
+        guard let url = URL(string: strURL) else { return }
+        self.photo.sd_setImage(with: url, placeholderImage: UIImage(named: "no-image"))
     }
     
     func changeStatusLike(status: Bool) {

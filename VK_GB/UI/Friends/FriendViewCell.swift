@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FriendViewCell: UITableViewCell {
     static let reuseID = "FrindCell"
     @IBOutlet private weak var avatar: UIAvatarView!
     @IBOutlet private weak var name: UILabel!
     @IBOutlet private weak var status: UILabel!
-    private let apiService = APIService()
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -27,13 +27,7 @@ class FriendViewCell: UITableViewCell {
         case .offLine:
             self.status.textColor = .red
         }
-        if let avatar = friend.photo200_Orig {
-            let url = URL(string: avatar)
-            apiService.downloadImage(from: url!) { data in
-                self.avatar.avatarImage.image = UIImage(data: data)
-            }
-        } else {
-            self.avatar.avatarImage.image = UIImage(named: "no-image")
-        }
+        
+        self.avatar.avatarImage.sd_setImage(with: URL(string: friend.photo200_Orig!), placeholderImage: UIImage(named: "no-image"))
     }
 }
