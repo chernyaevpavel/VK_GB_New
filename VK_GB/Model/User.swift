@@ -37,6 +37,10 @@ class User: Object, Codable {
         case lastName = "last_name"
         case firstName = "first_name"
     }
+    
+    override class func primaryKey() -> String? {
+        "id"
+    }
 }
 
 

@@ -13,12 +13,14 @@ class FriendPhotosCollectionViewController: UICollectionViewController, ChangeSt
     var friendID: Int = 0
     var friendPhotos: [Photo] = []
     private let apiService = APIService()
+    private let realmService = RealmService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
-        apiService.getPhotos(ownerID: String(friendID)) { photos in
-            self.friendPhotos = photos
+        loadPhotos(ownerId: friendID) {
+            self.friendPhotos = self.realmService.getPhotos(ownerId: self.friendID)
             self.collectionView.reloadData()
         }
     }
@@ -58,5 +60,16 @@ class FriendPhotosCollectionViewController: UICollectionViewController, ChangeSt
         let index = collectionView.indexPathsForSelectedItems![0].row
         destination.currentIndexPhoto = index
         
+    }
+    
+    private func loadPhotos(ownerId: Int, comlition: @escaping()->()) {
+        if realmService.getPhotos(ownerId: ownerId).isEmpty {
+            apiService.getPhotos(ownerID: String(friendID)) { photos in
+                self.realmService.addPhotos(photos: photos)
+                comlition()
+            }
+        } else {
+            comlition()
+        }
     }
 }

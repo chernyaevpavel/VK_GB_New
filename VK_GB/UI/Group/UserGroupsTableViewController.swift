@@ -9,11 +9,12 @@ import UIKit
 
 class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate {
     private var userGroups = [Group]()
-//    private var fillFakeData = FillFakeData()
     private var foundUserGroup = [Group]()
     private var isSearch = false
     @IBOutlet weak var searchBar: UISearchBar!
     private let apiService = APIService()
+    private let realmService = RealmService()
+    private let countLoadGroups = "COUNT_LOAD_GROUPS"
     
     func foundGrupsByText(_ text: String) -> [Group] {
         return userGroups.filter({$0.name.lowercased().contains(text.lowercased()) })
@@ -32,11 +33,11 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-//        fillFakeData.fillUserGroup(arr: &userGroups)
-        apiService.getGroups { groups in
-            self.userGroups = groups
+        loadGroups {
+            self.userGroups = self.realmService.getGroups()
             self.tableView.reloadData()
         }
+        
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -83,5 +84,21 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
             isSearch = false
             tableView.reloadData()
         }
+    }
+    
+    private func loadGroups(comlition: @escaping()->()) {
+        //грузим каждую 3-ю загрузку или когда база пустая
+        var cnt = UserDefaults.standard.integer(forKey: countLoadGroups)
+        cnt = cnt + 1 == 3 ? 0 : cnt + 1
+        UserDefaults.standard.set(cnt, forKey: countLoadGroups)
+        if realmService.getGroups().isEmpty || cnt == 0 {
+            apiService.getGroups(completion: { groups in
+                self.realmService.addGroups(groups: groups)
+                comlition()
+            })
+        } else {
+            comlition()
+        }
+        
     }
 }

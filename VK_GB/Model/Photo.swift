@@ -38,6 +38,7 @@ struct ResponsePhoto: Codable {
 // MARK: - Item
 class Photo: Object, Codable {
     @objc dynamic var id: Int
+    @objc dynamic var ownerId: Int
     @objc dynamic var photo2560, photo807: String?
     @objc dynamic var photo1280: String?
     @objc dynamic var likes: Likes?
@@ -46,12 +47,17 @@ class Photo: Object, Codable {
 
     enum CodingKeys: String, CodingKey {
         case id
+        case ownerId = "owner_id"
         case photo2560 = "photo_2560"
         case photo807 = "photo_807"
         case photo1280 = "photo_1280"
         case likes
         case photo604 = "photo_604"
         case photo130 = "photo_130"
+    }
+    
+    override class func primaryKey() -> String? {
+        "id"
     }
 }
 
