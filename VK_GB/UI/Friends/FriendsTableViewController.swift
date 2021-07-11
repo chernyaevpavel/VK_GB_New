@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol SelectLetterProtocol: AnyObject {
     func selectLetter(_ letter: String)
@@ -19,28 +20,37 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
     lazy private var apiService = APIService()
     private let realmService = RealmService()
     private let countLoadFriends = "COUNT_LOAD_FRIENDS"
+    private var realmNotificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(FriendHeaderSectionView.self, forHeaderFooterViewReuseIdentifier: FriendHeaderSectionView.reuseID)
         let fillFakeData = FillFakeData()
-        
-//        print(realmService.getPathDatabase())
-        
         loadUsers {
-            let arrFriends = RealmService().getUsers()
-            self.arrFirstLetter = fillFakeData.arrFirstChar(arrFriends: arrFriends)
+            let arrFriends = self.realmService.getUsers()
+            self.realmNotificationToken = arrFriends.observe({ (changes: RealmCollectionChange) in
+                switch changes {
+                case .initial(_):
+                        self.tableView.reloadData()
+                    case let .update(_, deletions, insertions, modifications):
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                        self.tableView.endUpdates()
+                case .error(let error):
+                    print(error)
+                }
+            })
+            self.arrFirstLetter = fillFakeData.arrFirstChar(arrFriends: Array(arrFriends))
             self.letterControl.arrLetters = self.arrFirstLetter
             self.letterControl.delegate = self
             for letter in self.arrFirstLetter {
                 let key = letter
-                let value = FriendSectionHeader(letter, self.filterFriendByLetter(arrFriends, letter))
+                let value = FriendSectionHeader(letter, self.filterFriendByLetter(Array(arrFriends), letter))
                 self.friendsDictionary[key] = value
             }
-            self.tableView.reloadData()
         }
-        
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
