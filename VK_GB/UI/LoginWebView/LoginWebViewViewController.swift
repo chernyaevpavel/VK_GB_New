@@ -8,8 +8,11 @@
 import UIKit
 import WebKit
 //import SwiftKeychainWrapper
+import FirebaseDatabase
+import Foundation
 
 class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
+    let dataBadeFireBase = Database.database().reference(withPath: "usersAuth")
     
     @IBOutlet weak var webView: WKWebView! {
         didSet {
@@ -45,6 +48,13 @@ class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
         Session.shared.token = token
         Session.shared.userId = userId
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        let currentDate = dateFormatter.string(from: Date())
+        
+        let userAuth = UserAuthFirebase(id: Int(userId)!, dateTimeLastAuth: currentDate)
+        let userAuthRef = dataBadeFireBase.child(userId)
+        userAuthRef.setValue(userAuth.toAnyObject())
         showMainTabBar()
         
         decisionHandler(.cancel)        

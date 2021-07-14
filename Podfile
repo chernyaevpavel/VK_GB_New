@@ -10,5 +10,6 @@ target 'VK_GB' do
   pod 'SwiftKeychainWrapper'
   pod 'RealmSwift'
   pod 'SDWebImage'
-
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 end
