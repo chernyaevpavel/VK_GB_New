@@ -12,4 +12,5 @@ target 'VK_GB' do
   pod 'SDWebImage'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'DynamicJSON'
 end

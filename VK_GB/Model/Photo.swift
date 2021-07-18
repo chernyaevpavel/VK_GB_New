@@ -22,6 +22,7 @@
 
 import Foundation
 import RealmSwift
+import DynamicJSON
 
 // MARK: - PhotoResponse
 struct PhotoResponse: Codable {
@@ -58,6 +59,37 @@ class Photo: Object, Codable {
     
     override class func primaryKey() -> String? {
         "id"
+    }
+    
+    
+    convenience init(data: JSON) {
+        self.init()
+        self.id = data.photo.id.int ?? 0
+        self.ownerId = data.photo.owner_id.int ?? 0
+        self.likes = nil
+        guard let sizes = data.photo.sizes.array else { return }
+        for size in sizes {
+            guard let sizeType = size.type.string,
+                  let url = size.url.string
+            else {
+                continue
+            }
+            switch sizeType {
+            case "w":
+                self.photo2560 = url
+            case "y":
+                self.photo807 = url
+            case "z":
+                self.photo1280 = url
+            case "x":
+                self.photo604 = url
+            case "m":
+                self.photo130 = url
+            default:
+                continue
+            }
+            
+        }
     }
 }
 

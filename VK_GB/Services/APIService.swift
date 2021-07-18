@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import Alamofire
+import DynamicJSON
 
 final class APIService {
-    private let scheme = "https"
+    private let sheme = "https"
     private let host = "api.vk.com"
-    private let versionAPI = "5.68"
+    private let versionAPI = "5.131"
     
     private func getSessionToken() -> String? {
         let sessionToken = Session.shared.token
@@ -82,7 +84,7 @@ final class APIService {
             let session =  URLSession(configuration: configuration)
             let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
                 guard let dataResp = data else { return }
-//                print(data?.prettyJSON)
+                //                print(data?.prettyJSON)
                 let photoResponse = try? JSONDecoder().decode(PhotoResponse.self, from: dataResp)
                 guard let photos = photoResponse?.response.items else { return }
                 DispatchQueue.main.async {
@@ -93,19 +95,19 @@ final class APIService {
         }
     }
     
-//    func groupsSearch(textSearchRequest q: String) {
-//        let path = "/method/groups.search"
-//        let queryItems = [
-//            URLQueryItem(name: "q", value: q),
-//            URLQueryItem(name: "type", value: "group")
-//        ]        
-//        makeURLConstructor(path, queryItems)
-//    }
+    //    func groupsSearch(textSearchRequest q: String) {
+    //        let path = "/method/groups.search"
+    //        let queryItems = [
+    //            URLQueryItem(name: "q", value: q),
+    //            URLQueryItem(name: "type", value: "group")
+    //        ]
+    //        makeURLConstructor(path, queryItems)
+    //    }
     
     private func makeURLConstructor(_ path: String, _ queryItems: [URLQueryItem]) -> URLComponents? {
         guard let sessionToken = getSessionToken() else { return nil }
         var urlConstructor = URLComponents()
-        urlConstructor.scheme = scheme
+        urlConstructor.scheme = sheme
         urlConstructor.host = host
         urlConstructor.path = path
         urlConstructor.queryItems =  [URLQueryItem(name: "access_token", value: sessionToken)] + queryItems + [URLQueryItem(name: "v", value: versionAPI)]
@@ -125,6 +127,43 @@ final class APIService {
             DispatchQueue.main.async {
                 completion(data)
             }
+        }
+    }
+    
+    func getNews(completion: @escaping(Result<[News], ApiError>)->()) {
+        guard let sessionToken = getSessionToken() else { return }
+        let path = "/method/newsfeed.get"
+        let url = sheme + "://" + host + path
+        let maxPhotos = "10"
+        let countNews = "5"
+        let parameters = [
+            "access_token": sessionToken,
+            "filters": "post",
+            "max_photos": maxPhotos,
+            "count" : countNews,
+            "v": versionAPI
+        ]
+        
+        AF.request(url, method: .get , parameters: parameters).responseData { response in
+            if let error = response.error {
+                let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                completion(.failure(apiErr))
+                return
+            }
+            let json = JSON(response.data)
+            if let errorCode = json.error.error_code.int,
+               let errorDescription = json.error.error_msg.string {
+                let error = ApiError(code: errorCode, description: errorDescription)
+                completion(.failure(error))
+                return
+            }
+            var news: [News] = []
+            if let items = json.response.items.array {
+                for item in items {
+                    news.append(News(data: item))
+                }
+            }
+            completion(.success(news))
         }
     }
 }
