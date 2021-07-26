@@ -135,7 +135,7 @@ final class APIService {
         let path = "/method/newsfeed.get"
         let url = sheme + "://" + host + path
         let maxPhotos = "10"
-        let countNews = "5"
+        let countNews = "50"
         let parameters = [
             "access_token": sessionToken,
             "filters": "post",
@@ -164,6 +164,77 @@ final class APIService {
                 }
             }
             completion(.success(news))
+        }
+    }
+    
+    func getUserName(userID: String, completion: @escaping(Result<[String: String], ApiError>)->()) {
+        guard let sessionToken = getSessionToken() else { return }
+        let path = "/method/users.get"
+        let url = sheme + "://" + host + path
+        let parameters = [
+            "user_ids": userID,
+            "access_token": sessionToken,
+            "v": versionAPI
+        ]
+        
+        AF.request(url, method: .get , parameters: parameters).responseData { response in
+            if let error = response.error {
+                let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                completion(.failure(apiErr))
+                return
+            }
+            let json = JSON(response.data)
+            if let errorCode = json.error.error_code.int,
+               let errorDescription = json.error.error_msg.string {
+                let error = ApiError(code: errorCode, description: errorDescription)
+                completion(.failure(error))
+                return
+            }
+            var namesDictionary = [String: String]()
+            if let response = json.response.array {
+                for resp in response {
+                    let name = resp.name.string ?? ""
+                    let id = resp.id.string ?? ""
+                    namesDictionary["\(id)"] = name
+                }
+                
+            }
+            completion(.success(namesDictionary))
+        }
+    }
+    
+    func getGroupName(groupID: String, completion: @escaping(Result<[String: String], ApiError>)->()) {
+        guard let sessionToken = getSessionToken() else { return }
+        let path = "/method/groups.getById"
+        let url = sheme + "://" + host + path
+        let parameters = [
+            "group_ids": groupID,
+            "access_token": sessionToken,
+            "v": versionAPI
+        ]
+        AF.request(url, method: .get , parameters: parameters).responseData { response in
+            if let error = response.error {
+                let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                completion(.failure(apiErr))
+                return
+            }
+            let json = JSON(response.data)
+            if let errorCode = json.error.error_code.int,
+               let errorDescription = json.error.error_msg.string {
+                let error = ApiError(code: errorCode, description: errorDescription)
+                completion(.failure(error))
+                return
+            }
+            var namesDictionary = [String: String]()
+            var nameGroup = ""
+            if let response = json.response.array {
+                for resp in response {
+                    let name = resp.name.string ?? ""
+                    let id = resp.id.string ?? ""
+                    namesDictionary["-\(id)"] = name
+                }
+            }
+            completion(.success(namesDictionary))
         }
     }
 }

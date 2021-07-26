@@ -10,19 +10,40 @@ import UIKit
 class NewsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ChangeStatusLikeObjectProtocol {
     
     private var arrNews: [News] = []
+    private var namesAuthor = [String: String]()
     
     @IBOutlet weak private var tableView: UITableView!
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return arrNews.count
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrNews[section].rows.count
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.reuseID) as! NewsTableViewCell
-        let news = arrNews[indexPath.row]
-        cell.configure(news: news)
-        cell.delegate = self
-        return cell
+        let news = arrNews[indexPath.section]
+        let row = indexPath.row
+        switch news.rows[row] {
+        case .author:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsAuthorTableViewCell.reuseId) as! NewsAuthorTableViewCell
+            cell.configure(news: news, namesAuthor: namesAuthor)
+            return cell
+        case .text:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsTextTableViewCell.reuseID) as! NewsTextTableViewCell
+            cell.configure(news: news)
+            return cell
+        case .image:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsImageTableViewCell.reuseId) as! NewsImageTableViewCell
+            cell.configure(news: news)
+            return cell
+        case .likeCommentControls:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.reuseID) as! NewsTableViewCell
+            cell.configure(news: news)
+            cell.delegate = self
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -33,6 +54,9 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         loadNews()
         tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: NewsTableViewCell.reuseID)
+        tableView.register(UINib(nibName: "NewsAuthorTableViewCell", bundle: nil), forCellReuseIdentifier: NewsAuthorTableViewCell.reuseId)
+        tableView.register(UINib(nibName: "NewsTextTableViewCell", bundle: nil), forCellReuseIdentifier: NewsTextTableViewCell.reuseID)
+        tableView.register(UINib(nibName: "NewsImageTableViewCell", bundle: nil), forCellReuseIdentifier: NewsImageTableViewCell.reuseId)
     }
     
     func changeStatus<T>(status: Bool, obj: T) {
@@ -48,9 +72,73 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
             case .failure(let error):
                 self.alertError(text: error.description)
             case .success(let news):
-                print(news)
                 self.arrNews = news
-                self.tableView.reloadData()
+                self.getNamesGroup(arrNews: news) { names in
+                    for key in names.keys {
+                        self.namesAuthor[key] = names[key]
+                    }
+                    self.tableView.reloadData()
+                }
+                self.getNamesUsers(arrNews: news) { names in
+                    for key in names.keys {
+                        self.namesAuthor[key] = names[key]
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func getNamesUsers(arrNews: [News], comletion: @escaping([String: String]) -> ()) {
+        let apiService = APIService()
+        var idUsers = ""
+        for new in arrNews {
+            var authorID = new.author
+            if !authorID.hasPrefix("-") {
+                if !idUsers.contains(authorID) {
+                    idUsers = idUsers + authorID + ","
+                }
+            }
+        }
+        
+        if !idUsers.isEmpty {
+            apiService.getUserName(userID: idUsers) { result in
+                switch result {
+                case .failure(let err):
+                    print(err)
+                case .success(let namesDictionary):
+                    comletion(namesDictionary)
+                }
+            }
+        }
+    }
+    
+    func getNamesGroup(arrNews: [News], comletion: @escaping([String: String]) -> ()) {
+        let apiService = APIService()
+        var idGroups = ""
+        var idUsers = ""
+        for new in arrNews {
+            var authorID = new.author
+            if authorID.hasPrefix("-") {
+                authorID.remove(at: authorID.startIndex)
+                if !idGroups.contains(authorID) {
+                    idGroups = idGroups + authorID + ","
+                }
+            } else {
+                if !idUsers.contains(authorID) {
+                    idUsers = idUsers + authorID + ","
+                }
+            }
+        }
+        
+        if !idGroups.isEmpty {
+            apiService.getGroupName(groupID: idGroups) { result in
+                switch result {
+                case .failure(let err):
+                    print(err)
+                case .success(let namesDictionary):
+                    comletion(namesDictionary)
+                }
             }
         }
     }

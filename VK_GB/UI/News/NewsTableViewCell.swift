@@ -9,11 +9,7 @@ import UIKit
 import SDWebImage
 
 class NewsTableViewCell: UITableViewCell, ChangeStatusLikeProtocol {
-    
     static let reuseID = "NewsTableViewCell"
-    @IBOutlet weak private var headerLabel: UILabel!
-    @IBOutlet weak private var descriptionNewsLabel: UILabel!
-    @IBOutlet weak private var newsImageView: UIImageView!
     @IBOutlet weak private var newsLikeControl: ILikeControl!
     @IBOutlet weak private var commentControl: CommentControl!
     @IBOutlet weak private var shareControl: ShareControl!
@@ -23,30 +19,14 @@ class NewsTableViewCell: UITableViewCell, ChangeStatusLikeProtocol {
     private let countCharPreviewNews = 200
     
     override func prepareForReuse() {
-        headerLabel.text = ""
         newsLikeControl.countLike = 0
         newsLikeControl.isLike = false
-        newsImageView.image = nil
+        commentControl.commentsCount = 0
+        eyeControl.countViewing = 0
     }
     
     func configure(news: News) {
         self.news = news
-        headerLabel.text = news.header
-        descriptionNewsLabel.text = news.news
-        
-        if news.images.count != 0 {
-            let photo = news.images[0]
-            if let strUrl = photo.photo1280,
-               let url = URL(string: strUrl) {
-                newsImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "no-image"))
-            } else {
-                newsImageView.image = UIImage(named: "no-image")!
-            }
-            
-        } else {
-            newsImageView.image = UIImage(named: "no-image")!
-        }
-        
         newsLikeControl.countLike = news.like.countLike
         newsLikeControl.isLike = news.like.isLike
         newsLikeControl.delegate = self

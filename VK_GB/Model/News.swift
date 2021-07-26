@@ -8,10 +8,16 @@
 import Foundation
 import DynamicJSON
 
+enum TypeRowsNews {
+    case author
+    case image
+    case text
+    case likeCommentControls
+}
+
 struct News {
     var id: String
-    var header: String
-    var news: String
+    var textNews: String?
     var images: [Photo]
     var like: Like
     var comments: [Comment]
@@ -20,27 +26,41 @@ struct News {
         comments.count
     }
     var shareCount: Int
+    var author: String
+    var dateTime: Date
+    var rows: [TypeRowsNews] {
+        var arr = [TypeRowsNews]()
+        arr.append(.author)
+        if let _ = textNews { arr.append(.text) }
+        if images.count > 0  {
+            if let _ = images.first?.photo1280 { arr.append(.image) }
+        }
+        arr.append(.likeCommentControls)
+        return arr
+    }
     
-    init(header: String, news: String, images: [Photo], like: Like, comments: [Comment], viewing: Int, shareCount: Int) {
+    init(textNews: String, images: [Photo], like: Like, comments: [Comment], viewing: Int, shareCount: Int, author: String, dateTime: Date) {
         self.id = UUID().uuidString
-        self.header = header
-        self.news = news
+        self.textNews = textNews
         self .images = images
         self.like = like
         self.comments = comments
         self.viewing = viewing
         self.shareCount = shareCount
+        self.author = author
+        self.dateTime = dateTime
     }
     
     init(data: JSON) {
         self.id = data.post_id.string ?? ""
-        self.header = ""
-        self.news = data.text.string ?? ""
+        self.textNews = data.text.string ?? ""
         self.like = Like(data.likes.count.int ?? 0)
         self.comments = Array(repeating: Comment(author: nil), count: data.comments.count.int ?? 0)
         self.viewing = data.views.count.int ?? 0
         self.shareCount = data.reposts.count.int ?? 0
         self.images = []
+        self.author = data.source_id.string ?? ""
+        self.dateTime = Date(timeIntervalSince1970: TimeInterval(data.date.int ?? 0))
         
         guard let attachments = data.attachments.array else { return }
         for attachment in attachments{
