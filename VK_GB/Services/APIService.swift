@@ -25,7 +25,7 @@ final class APIService {
         let path = "/method/friends.get"
         let queryItems = [
             URLQueryItem(name: "order", value: "name"),
-            URLQueryItem(name: "fields", value: "nickname, domain, sex, bdate, city, country, timezone, photo_50, photo_100, photo_200_orig, has_mobile, contacts, education, online, relation, last_seen, status, can_write_private_message, can_see_all_posts, can_post, universities")
+            URLQueryItem(name: "fields", value: "photo_200_orig, online")
         ]
         if let urlConstructor = makeURLConstructor(path, queryItems) {
             let configuration = URLSessionConfiguration.default
@@ -47,7 +47,6 @@ final class APIService {
         let path = "/method/groups.get"
         let  queryItems = [
             URLQueryItem(name: "extended", value: "1"),
-            URLQueryItem(name: "fields", value: "city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic")
         ]
         
         if let urlConstructor = makeURLConstructor(path, queryItems) {
@@ -94,14 +93,14 @@ final class APIService {
         }
     }
     
-    func groupsSearch(textSearchRequest q: String) {
-        let path = "/method/groups.search"
-        let queryItems = [
-            URLQueryItem(name: "q", value: q),
-            URLQueryItem(name: "type", value: "group")
-        ]        
-        makeURLConstructor(path, queryItems)
-    }
+//    func groupsSearch(textSearchRequest q: String) {
+//        let path = "/method/groups.search"
+//        let queryItems = [
+//            URLQueryItem(name: "q", value: q),
+//            URLQueryItem(name: "type", value: "group")
+//        ]        
+//        makeURLConstructor(path, queryItems)
+//    }
     
     private func makeURLConstructor(_ path: String, _ queryItems: [URLQueryItem]) -> URLComponents? {
         guard let sessionToken = getSessionToken() else { return nil }

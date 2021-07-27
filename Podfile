@@ -7,5 +7,8 @@ target 'VK_GB' do
 
   # Pods for VK_GB
   pod 'Alamofire'
+  pod 'SwiftKeychainWrapper'
+  pod 'RealmSwift'
+  pod 'SDWebImage'
 
 end

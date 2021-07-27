@@ -31,6 +31,7 @@
 //   let groupResponse = try? newJSONDecoder().decode(GroupResponse.self, from: jsonData)
 
 import Foundation
+import RealmSwift
 
 // MARK: - GroupResponse
 struct GroupResponse: Codable {
@@ -44,28 +45,15 @@ struct ResponseGroup: Codable {
 }
 
 // MARK: - Item
-struct Group: Codable {
-    let isMember, id: Int
-    let photo100: String?
-    let isAdvertiser, isAdmin: Int
-    let photo50, photo200: String?
-    let type, screenName, name: String
-    let isClosed: Int
-    let city: City?
-
+class Group: Object, Codable {
+    @objc dynamic var id: Int
+    @objc dynamic var name: String
+    @objc dynamic var photo200: String?
+    
     enum CodingKeys: String, CodingKey {
-        case isMember = "is_member"
         case id
-        case photo100 = "photo_100"
-        case isAdvertiser = "is_advertiser"
-        case isAdmin = "is_admin"
-        case photo50 = "photo_50"
         case photo200 = "photo_200"
-        case type
-        case screenName = "screen_name"
         case name
-        case isClosed = "is_closed"
-        case city
     }
 }
 

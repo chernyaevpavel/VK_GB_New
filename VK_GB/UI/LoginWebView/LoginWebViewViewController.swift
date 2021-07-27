@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+//import SwiftKeychainWrapper
 
 class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
     
@@ -39,6 +40,8 @@ class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
+//        KeychainWrapper.standard.set(token, forKey: "access_token")
+//        KeychainWrapper.standard.set(userId, forKey: "user_id")
         Session.shared.token = token
         Session.shared.userId = userId
         
@@ -49,7 +52,15 @@ class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadLoginForm()
+//        if let token = KeychainWrapper.standard.string(forKey: "access_token"),
+//           let userId = KeychainWrapper.standard.string(forKey: "user_id") {
+//            Session.shared.token = token
+//            Session.shared.userId = userId
+//            showMainTabBar()
+//            return
+//        } else {
+            loadLoginForm()
+//        }
     }
     
     // MARK: - LoginForm

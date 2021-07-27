@@ -86,10 +86,10 @@ class SearchBarControl: UIControl {
     func startAnimation() {
         if isSelected {return}
         isSelected.toggle()
-        let widthCancelButton: CGFloat = 66
+//        let widthCancelButton: CGFloat = 66
 //        print(viewSearch.layer.frame.size.width)
 //        print(self.viewSearch.layer.frame.origin.x)
-        let widthTextFieldView = viewSearch.layer.frame.size.width - 4 - hwImage - 4 - 4 - widthCancelButton - 4
+//        let widthTextFieldView = viewSearch.layer.frame.size.width - 4 - hwImage - 4 - 4 - widthCancelButton - 4
 //        print(widthTextFieldView)
         
         

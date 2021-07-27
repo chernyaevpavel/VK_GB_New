@@ -55,14 +55,7 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         let index = indexPath.row
         let letter = arrFirstLetter[section]
         guard let friend = friendsDictionary[letter]?.arrFriends[index] else { return cell}
-        let avatar = friend.photo200_Orig
-
-        let name = "\(friend.firstName) \(friend.lastName)"
-//        var lastSeen: TimeInterval?
-//        if let lS = friend.lastSeen?.time {
-//            lastSeen = TimeInterval(lS)
-//        }
-        cell.configure(name: name , avatar: avatar, status: nil)
+        cell.configure(friend: friend)
         return cell
     }
     
