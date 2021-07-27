@@ -82,7 +82,7 @@ final class APIService {
             let session =  URLSession(configuration: configuration)
             let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
                 guard let dataResp = data else { return }
-//                print(dataResp.prettyJSON)
+//                print(data?.prettyJSON)
                 let photoResponse = try? JSONDecoder().decode(PhotoResponse.self, from: dataResp)
                 guard let photos = photoResponse?.response.items else { return }
                 DispatchQueue.main.async {

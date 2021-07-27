@@ -12,21 +12,23 @@ protocol SelectLetterProtocol: AnyObject {
 }
 
 class FriendsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SelectLetterProtocol {
-//    var arrFriens: [Friend] = []
-    
     private var arrFirstLetter =  [String]()
     private var friendsDictionary = [String: FriendSectionHeader]()
     @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var letterControl: SelectLetterControl!
-    private let apiService = APIService()
+    lazy private var apiService = APIService()
+    private let realmService = RealmService()
+    private let countLoadFriends = "COUNT_LOAD_FRIENDS"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(FriendHeaderSectionView.self, forHeaderFooterViewReuseIdentifier: FriendHeaderSectionView.reuseID)
         let fillFakeData = FillFakeData()
-        var arrFriends = [User]()
-        apiService.getFriends { users in
-            arrFriends = users
+        
+//        print(realmService.getPathDatabase())
+        
+        loadUsers {
+            let arrFriends = RealmService().getUsers()
             self.arrFirstLetter = fillFakeData.arrFirstChar(arrFriends: arrFriends)
             self.letterControl.arrLetters = self.arrFirstLetter
             self.letterControl.delegate = self
@@ -37,6 +39,7 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
             }
             self.tableView.reloadData()
         }
+        
         
     }
     
@@ -91,6 +94,22 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
     
     private func filterFriendByLetter(_ arr: [User], _ letter: String) -> [User] {
         return arr.filter({ String($0.firstName.first ?? "*") == letter })
-
+        
+    }
+    
+    private func loadUsers(comlition: @escaping()->()) {
+        //грузим каждую 3-ю загрузку или когда база пустая
+        var cnt = UserDefaults.standard.integer(forKey: countLoadFriends)
+        cnt = cnt + 1 == 3 ? 0 : cnt + 1
+        UserDefaults.standard.set(cnt, forKey: countLoadFriends)
+        if realmService.getUsers().isEmpty || cnt == 0 {
+            apiService.getFriends { users in
+                self.realmService.addUsers(users: users)
+                comlition()
+            }
+        } else {
+            comlition()
+        }
+        
     }
 }
