@@ -144,26 +144,36 @@ final class APIService {
             "v": versionAPI
         ]
         
-        AF.request(url, method: .get , parameters: parameters).responseData { response in
-            if let error = response.error {
-                let apiErr = ApiError(code: nil, description: error.localizedDescription)
-                completion(.failure(apiErr))
-                return
-            }
-            let json = JSON(response.data)
-            if let errorCode = json.error.error_code.int,
-               let errorDescription = json.error.error_msg.string {
-                let error = ApiError(code: errorCode, description: errorDescription)
-                completion(.failure(error))
-                return
-            }
-            var news: [News] = []
-            if let items = json.response.items.array {
-                for item in items {
-                    news.append(News(data: item))
+        DispatchQueue.global().async {
+            AF.request(url, method: .get , parameters: parameters).responseData { response in
+                DispatchQueue.global().async {
+                    if let error = response.error {
+                        let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(apiErr))
+                        }
+                        return
+                    }
+                    let json = JSON(response.data)
+                    if let errorCode = json.error.error_code.int,
+                       let errorDescription = json.error.error_msg.string {
+                        let error = ApiError(code: errorCode, description: errorDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    var news: [News] = []
+                    if let items = json.response.items.array {
+                        for item in items {
+                            news.append(News(data: item))
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        completion(.success(news))
+                    }
                 }
             }
-            completion(.success(news))
         }
     }
     
@@ -177,29 +187,38 @@ final class APIService {
             "v": versionAPI
         ]
         
-        AF.request(url, method: .get , parameters: parameters).responseData { response in
-            if let error = response.error {
-                let apiErr = ApiError(code: nil, description: error.localizedDescription)
-                completion(.failure(apiErr))
-                return
-            }
-            let json = JSON(response.data)
-            if let errorCode = json.error.error_code.int,
-               let errorDescription = json.error.error_msg.string {
-                let error = ApiError(code: errorCode, description: errorDescription)
-                completion(.failure(error))
-                return
-            }
-            var namesDictionary = [String: String]()
-            if let response = json.response.array {
-                for resp in response {
-                    let name = resp.name.string ?? ""
-                    let id = resp.id.string ?? ""
-                    namesDictionary["\(id)"] = name
+        DispatchQueue.global().async {
+            AF.request(url, method: .get , parameters: parameters).responseData { response in
+                DispatchQueue.global().async {
+                    if let error = response.error {
+                        let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(apiErr))
+                        }
+                        return
+                    }
+                    let json = JSON(response.data)
+                    if let errorCode = json.error.error_code.int,
+                       let errorDescription = json.error.error_msg.string {
+                        let error = ApiError(code: errorCode, description: errorDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    var namesDictionary = [String: String]()
+                    if let response = json.response.array {
+                        for resp in response {
+                            let name = resp.name.string ?? ""
+                            let id = resp.id.string ?? ""
+                            namesDictionary["\(id)"] = name
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        completion(.success(namesDictionary))
+                    }
                 }
-                
             }
-            completion(.success(namesDictionary))
         }
     }
     
@@ -212,29 +231,40 @@ final class APIService {
             "access_token": sessionToken,
             "v": versionAPI
         ]
-        AF.request(url, method: .get , parameters: parameters).responseData { response in
-            if let error = response.error {
-                let apiErr = ApiError(code: nil, description: error.localizedDescription)
-                completion(.failure(apiErr))
-                return
-            }
-            let json = JSON(response.data)
-            if let errorCode = json.error.error_code.int,
-               let errorDescription = json.error.error_msg.string {
-                let error = ApiError(code: errorCode, description: errorDescription)
-                completion(.failure(error))
-                return
-            }
-            var namesDictionary = [String: String]()
-            var nameGroup = ""
-            if let response = json.response.array {
-                for resp in response {
-                    let name = resp.name.string ?? ""
-                    let id = resp.id.string ?? ""
-                    namesDictionary["-\(id)"] = name
+        
+        DispatchQueue.global().async {
+            AF.request(url, method: .get , parameters: parameters).responseData { response in
+                DispatchQueue.global().async {
+                    if let error = response.error {
+                        let apiErr = ApiError(code: nil, description: error.localizedDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(apiErr))
+                        }
+                        return
+                    }
+                    let json = JSON(response.data)
+                    if let errorCode = json.error.error_code.int,
+                       let errorDescription = json.error.error_msg.string {
+                        let error = ApiError(code: errorCode, description: errorDescription)
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    var namesDictionary = [String: String]()
+//                    var nameGroup = ""
+                    if let response = json.response.array {
+                        for resp in response {
+                            let name = resp.name.string ?? ""
+                            let id = resp.id.string ?? ""
+                            namesDictionary["-\(id)"] = name
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        completion(.success(namesDictionary))
+                    }
                 }
             }
-            completion(.success(namesDictionary))
         }
     }
 }

@@ -93,7 +93,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         let apiService = APIService()
         var idUsers = ""
         for new in arrNews {
-            var authorID = new.author
+            let authorID = new.author
             if !authorID.hasPrefix("-") {
                 if !idUsers.contains(authorID) {
                     idUsers = idUsers + authorID + ","
@@ -110,6 +110,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
                     comletion(namesDictionary)
                 }
             }
+        } else{
+            comletion([:])
         }
     }
     
@@ -140,6 +142,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
                     comletion(namesDictionary)
                 }
             }
+        } else {
+            comletion([:])
         }
     }
     
