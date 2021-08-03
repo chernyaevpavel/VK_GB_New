@@ -65,6 +65,9 @@
 		B6E4336526486EB4005BBA3E /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4336326486EB4005BBA3E /* NewsTableViewCell.swift */; };
 		B6E4336626486EB4005BBA3E /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E4336426486EB4005BBA3E /* NewsTableViewCell.xib */; };
 		B6E4336A26486F49005BBA3E /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4336926486F49005BBA3E /* NewsTableViewController.swift */; };
+		B6E4C7F526B9933A00E34C36 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F426B9933A00E34C36 /* AsyncOperation.swift */; };
+		B6E4C7F726B993E400E34C36 /* GetDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F626B993E400E34C36 /* GetDataOperation.swift */; };
+		B6E4C7F926B998E800E34C36 /* ParseDataToUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F826B998E800E34C36 /* ParseDataToUsers.swift */; };
 		B6F91471269B377C0044CFE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6F91470269B377C0044CFE2 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +136,9 @@
 		B6E4336326486EB4005BBA3E /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		B6E4336426486EB4005BBA3E /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
 		B6E4336926486F49005BBA3E /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
+		B6E4C7F426B9933A00E34C36 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		B6E4C7F626B993E400E34C36 /* GetDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataOperation.swift; sourceTree = "<group>"; };
+		B6E4C7F826B998E800E34C36 /* ParseDataToUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseDataToUsers.swift; sourceTree = "<group>"; };
 		B6F91470269B377C0044CFE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -222,6 +228,7 @@
 		B6C8AFEE2632D99C0040654B /* VK_GB */ = {
 			isa = PBXGroup;
 			children = (
+				B6E4C7F326B9931000E34C36 /* Operation */,
 				B6A7E03D2687268B009084D5 /* Extension */,
 				B689D33F26806865001E466B /* Services */,
 				B6CA5C062655598500055229 /* TransitionAnimation */,
@@ -386,6 +393,16 @@
 			path = News;
 			sourceTree = "<group>";
 		};
+		B6E4C7F326B9931000E34C36 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				B6E4C7F426B9933A00E34C36 /* AsyncOperation.swift */,
+				B6E4C7F626B993E400E34C36 /* GetDataOperation.swift */,
+				B6E4C7F826B998E800E34C36 /* ParseDataToUsers.swift */,
+			);
+			path = Operation;
+			sourceTree = "<group>";
+		};
 		F0DE0901FBAA03165532FA5C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,6 +536,7 @@
 				B6CA5C0A26555B2500055229 /* AnimatedNavigationController.swift in Sources */,
 				B6A4982526A8995A00771DFD /* NewsTextTableViewCell.swift in Sources */,
 				B6D8047826406AA80086BACE /* FriendPhotoCollectionViewCell.swift in Sources */,
+				B6E4C7F726B993E400E34C36 /* GetDataOperation.swift in Sources */,
 				B61E53C82639442700D215D3 /* UserGroupTableViewCell.swift in Sources */,
 				B69199872693686B00F22A73 /* RealmService.swift in Sources */,
 				B6A7CD60264C45F100FDAB8B /* Delay.swift in Sources */,
@@ -528,6 +546,7 @@
 				B6E1122E2645528200558894 /* ParallaxView.swift in Sources */,
 				B6CA5C08265559AD00055229 /* NavigationAnimator.swift in Sources */,
 				B6E4336526486EB4005BBA3E /* NewsTableViewCell.swift in Sources */,
+				B6E4C7F526B9933A00E34C36 /* AsyncOperation.swift in Sources */,
 				B6DE7DBB2639E7F5000A2554 /* GlobalGroupsTableViewController.swift in Sources */,
 				B6D1E70F263D5AF20061F336 /* UIAvatarView.swift in Sources */,
 				B6E216592647D5A70074F050 /* FriendHeaderSectionView.swift in Sources */,
@@ -559,6 +578,7 @@
 				B654B90726407C9200A273BC /* LikePhoto.swift in Sources */,
 				B62DE8BC263B1DA500EFA31F /* Status.swift in Sources */,
 				B6E2164926472FED0074F050 /* FriendSectionHeader.swift in Sources */,
+				B6E4C7F926B998E800E34C36 /* ParseDataToUsers.swift in Sources */,
 				B6DE7DB82639D2E8000A2554 /* FillFakeData.swift in Sources */,
 				B6534BFE26413269001D77D0 /* Like.swift in Sources */,
 				B6D1E716263D75820061F336 /* ILikeControl.swift in Sources */,
