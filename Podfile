@@ -13,4 +13,5 @@ target 'VK_GB' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'DynamicJSON'
+  pod 'PromiseKit'
 end
