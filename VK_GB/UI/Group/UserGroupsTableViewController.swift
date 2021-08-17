@@ -114,7 +114,7 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
                 self.tableView.reloadData()
             }
         }.catch { err in
-            print(err.localizedDescription)
+            print(err)
         }
     }
     

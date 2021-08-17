@@ -83,11 +83,19 @@ class APIService {
             let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
                 guard let dataResp = data else { return }
                 //                print(data?.prettyJSON)
-                let photoResponse = try? JSONDecoder().decode(PhotoResponse.self, from: dataResp)
-                guard let photos = photoResponse?.response.items else { return }
-                DispatchQueue.main.async {
-                    completion(photos)
+                do {
+                    let photoResponse = try JSONDecoder().decode(PhotoResponse.self, from: dataResp)
+                    let photos = photoResponse.response.items
+                    DispatchQueue.main.async {
+                        completion(photos)
+                    }
+                } catch let jsonError as NSError {
+                    print(jsonError.localizedDescription)
+                    DispatchQueue.main.async {
+                        completion([])
+                    }
                 }
+                
             }
             task.resume()
         }
@@ -184,7 +192,6 @@ class APIService {
             "access_token": sessionToken,
             "v": versionAPI
         ]
-        
         DispatchQueue.global().async {
             AF.request(url, method: .get , parameters: parameters).responseData { response in
                 DispatchQueue.global().async {
