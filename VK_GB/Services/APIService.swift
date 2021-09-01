@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import DynamicJSON
 
-final class APIService {
+class APIService {
     private let sheme = "https"
     private let host = "api.vk.com"
     private let versionAPI = "5.131"
@@ -22,7 +22,7 @@ final class APIService {
         }
         return sessionToken
     }
-        
+    
     func getFriends(completion: @escaping([User])->()) {
         let path = "/method/friends.get"
         let queryItems = [
