@@ -26,18 +26,19 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         tableView.register(FriendHeaderSectionView.self, forHeaderFooterViewReuseIdentifier: FriendHeaderSectionView.reuseID)
         let fillFakeData = FillFakeData()
+        
         loadUsers {
             let arrFriends = self.realmService.getUsers()
             self.realmNotificationToken = arrFriends.observe({ (changes: RealmCollectionChange) in
                 switch changes {
                 case .initial(_):
-                        self.tableView.reloadData()
-                    case let .update(_, deletions, insertions, modifications):
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
-                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-                        self.tableView.endUpdates()
+                    self.tableView.reloadData()
+                case let .update(_, deletions, insertions, modifications):
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                    self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+                    self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                    self.tableView.endUpdates()
                 case .error(let error):
                     print(error)
                 }
@@ -112,10 +113,13 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         var cnt = UserDefaults.standard.integer(forKey: countLoadFriends)
         cnt = cnt + 1 == 3 ? 0 : cnt + 1
         UserDefaults.standard.set(cnt, forKey: countLoadFriends)
+        cnt = 0 //заглушка для тестов
         if realmService.getUsers().isEmpty || cnt == 0 {
             apiService.getFriends { users in
-                self.realmService.addUsers(users: users)
-                comlition()
+                OperationQueue.main.addOperation {
+                    self.realmService.addUsers(users: users)
+                    comlition()
+                }
             }
         } else {
             comlition()

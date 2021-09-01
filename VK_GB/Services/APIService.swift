@@ -22,26 +22,24 @@ final class APIService {
         }
         return sessionToken
     }
-    
+        
     func getFriends(completion: @escaping([User])->()) {
         let path = "/method/friends.get"
         let queryItems = [
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "photo_200_orig, online")
         ]
-        if let urlConstructor = makeURLConstructor(path, queryItems) {
-            let configuration = URLSessionConfiguration.default
-            let session =  URLSession(configuration: configuration)
-            let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-                guard let dataResp = data else { return }
-                let friendsResponse = try? JSONDecoder().decode(Friends.self, from: dataResp)
-                guard let users = friendsResponse?.response.items else { return }
-                
-                DispatchQueue.main.async {
-                    completion(users)
-                }
-            }
-            task.resume()
+        
+        let operationQueue = OperationQueue()
+        let getDataOperation = GetDataOperation(path, queryItems)
+        operationQueue.addOperation(getDataOperation)
+        
+        let parseData = ParseDataToUsers()
+        parseData.addDependency(getDataOperation)
+        operationQueue.addOperation(parseData)
+        
+        parseData.completionBlock = {
+            completion(parseData.users)
         }
     }
     
@@ -104,7 +102,7 @@ final class APIService {
     //        makeURLConstructor(path, queryItems)
     //    }
     
-    private func makeURLConstructor(_ path: String, _ queryItems: [URLQueryItem]) -> URLComponents? {
+    func makeURLConstructor(_ path: String, _ queryItems: [URLQueryItem]) -> URLComponents? {
         guard let sessionToken = getSessionToken() else { return nil }
         var urlConstructor = URLComponents()
         urlConstructor.scheme = sheme
@@ -252,7 +250,7 @@ final class APIService {
                         return
                     }
                     var namesDictionary = [String: String]()
-//                    var nameGroup = ""
+                    //                    var nameGroup = ""
                     if let response = json.response.array {
                         for resp in response {
                             let name = resp.name.string ?? ""
