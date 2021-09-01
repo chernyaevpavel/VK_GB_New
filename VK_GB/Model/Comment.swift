@@ -6,6 +6,6 @@
 //
 
 struct Comment {
-    let author: User
-    var comment: String
+    let author: User?
+    var comment: String?
 }

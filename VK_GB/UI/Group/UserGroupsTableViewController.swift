@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate {
     private var userGroups = [Group]()
@@ -15,6 +16,7 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     private let apiService = APIService()
     private let realmService = RealmService()
     private let countLoadGroups = "COUNT_LOAD_GROUPS"
+    private var realmNotificationToken: NotificationToken?
     
     func foundGrupsByText(_ text: String) -> [Group] {
         return userGroups.filter({$0.name.lowercased().contains(text.lowercased()) })
@@ -34,10 +36,23 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
         super.viewDidLoad()
         searchBar.delegate = self
         loadGroups {
-            self.userGroups = self.realmService.getGroups()
-            self.tableView.reloadData()
-        }
-        
+            let userGroupsRealm = self.realmService.getGroups()
+            self.userGroups = Array(userGroupsRealm)
+            self.realmNotificationToken = userGroupsRealm.observe({ (changes: RealmCollectionChange) in
+                switch changes {
+                case .initial(_):
+                        self.tableView.reloadData()
+                    case let .update(_, deletions, insertions, modifications):
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                        self.tableView.endUpdates()
+                case .error(let error):
+                    print(error)
+                }
+            })
+        }   
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,7 +94,6 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
         let index = indexPath.row
         group = sourceController.filtering ?  sourceController.searchUserGroup[index] : sourceController.globalUserGroups[index]
         if !userGroups.contains(where: {$0.name == group.name}) {
-//            group.addUser()
             userGroups.append(group)
             isSearch = false
             tableView.reloadData()

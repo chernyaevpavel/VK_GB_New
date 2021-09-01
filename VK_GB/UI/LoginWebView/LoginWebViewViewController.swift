@@ -8,8 +8,11 @@
 import UIKit
 import WebKit
 //import SwiftKeychainWrapper
+import FirebaseDatabase
+import Foundation
 
 class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
+    let dataBadeFireBase = Database.database().reference(withPath: "usersAuth")
     
     @IBOutlet weak var webView: WKWebView! {
         didSet {
@@ -45,6 +48,13 @@ class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
         Session.shared.token = token
         Session.shared.userId = userId
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        let currentDate = dateFormatter.string(from: Date())
+        
+        let userAuth = UserAuthFirebase(id: Int(userId)!, dateTimeLastAuth: currentDate)
+        let userAuthRef = dataBadeFireBase.child(userId)
+        userAuthRef.setValue(userAuth.toAnyObject())
         showMainTabBar()
         
         decisionHandler(.cancel)        
@@ -73,7 +83,7 @@ class LoginWebViewViewController: UIViewController, WKNavigationDelegate {
             URLQueryItem(name: "client_id", value: "7884575"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "scope", value: "friends,photos,wall,groups"),
             URLQueryItem(name: "revoke", value: "1"),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.68")

@@ -26,8 +26,8 @@ class RealmService {
         }
     }
     
-    func getUsers() -> [User] {
-        Array(self.realm.objects(User.self))
+    func getUsers() -> Results<User> {
+        self.realm.objects(User.self)
     }
     
     func deleteUsers(users: [User]) {
@@ -41,7 +41,7 @@ class RealmService {
     }
     
     func deleteAllUsers() {
-        deleteUsers(users: getUsers())
+        deleteUsers(users: Array(getUsers()))
     }
     
     func addGroups(groups: [Group]) {
@@ -64,12 +64,12 @@ class RealmService {
         }
     }
     
-    func getGroups() -> [Group] {
-        Array(self.realm.objects(Group.self))
+    func getGroups() -> Results<Group> {
+        self.realm.objects(Group.self)
     }
     
     func deleteAllGroups() {
-        deleteGroups(groups: getGroups())
+        deleteGroups(groups: Array(getGroups()))
     }
     
     func addPhotos(photos: [Photo]) {
