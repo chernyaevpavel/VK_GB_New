@@ -17,8 +17,6 @@ class FriendPhotosCollectionViewController: UICollectionViewController, ChangeSt
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
         loadPhotos(ownerId: friendID) {
             self.friendPhotos = self.realmService.getPhotos(ownerId: self.friendID)
             self.collectionView.reloadData()
@@ -63,7 +61,7 @@ class FriendPhotosCollectionViewController: UICollectionViewController, ChangeSt
     }
     
     private func loadPhotos(ownerId: Int, comlition: @escaping()->()) {
-        if realmService.getPhotos(ownerId: ownerId).isEmpty {
+        if realmService.getPhotos(ownerId: ownerId).isEmpty || 1 == 1 {
             apiService.getPhotos(ownerID: String(friendID)) { photos in
                 self.realmService.addPhotos(photos: photos)
                 comlition()

@@ -11,8 +11,15 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     private var arrNews: [News] = []
     private var namesAuthor = [String: String]()
-    
     @IBOutlet weak private var tableView: UITableView!
+    let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm"
+        return df
+    }()
+    var dateTextCache = [Date: String]()
+    var hightsCache = [IndexPath: CGFloat]()
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return arrNews.count
@@ -28,7 +35,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         switch news.rows[row] {
         case .author:
             let cell = tableView.dequeueReusableCell(withIdentifier: NewsAuthorTableViewCell.reuseId) as! NewsAuthorTableViewCell
-            cell.configure(news: news, namesAuthor: namesAuthor)
+            cell.configure(news: news, namesAuthor: namesAuthor, dateFormatter: self.dateFormatter, dateTextCache: &dateTextCache)
             return cell
         case .text:
             let cell = tableView.dequeueReusableCell(withIdentifier: NewsTextTableViewCell.reuseID) as! NewsTextTableViewCell
@@ -47,8 +54,23 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+        let auD = UITableView.automaticDimension
+        let news = arrNews[indexPath.section]
+        let row = indexPath.row
+        switch news.rows[row] {
+        case .author:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NewsAuthorTableViewCell.reuseId) as! NewsAuthorTableViewCell
+            return cell.getHightRow(news: news, namesAuthor: namesAuthor, dateFormatter: dateFormatter, dateTextCache: &dateTextCache, hightsCache: &hightsCache, indexPath: indexPath)
+        default:
+            return auD
+        }
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        hightsCache = [:]
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,18 +94,24 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
             case .failure(let error):
                 self.alertError(text: error.description)
             case .success(let news):
-                self.arrNews = news
-                self.getNamesGroup(arrNews: news) { names in
-                    for key in names.keys {
-                        self.namesAuthor[key] = names[key]
+                DispatchQueue.global().async {
+                    self.arrNews = news
+                    self.getNamesGroup(arrNews: news) { names in
+                        for key in names.keys {
+                            self.namesAuthor[key] = names[key]
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
                     }
-                    self.tableView.reloadData()
-                }
-                self.getNamesUsers(arrNews: news) { names in
-                    for key in names.keys {
-                        self.namesAuthor[key] = names[key]
+                    self.getNamesUsers(arrNews: news) { names in
+                        for key in names.keys {
+                            self.namesAuthor[key] = names[key]
+                        }
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
                     }
-                    self.tableView.reloadData()
                 }
             }
         }
@@ -93,7 +121,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         let apiService = APIService()
         var idUsers = ""
         for new in arrNews {
-            var authorID = new.author
+            let authorID = new.author
             if !authorID.hasPrefix("-") {
                 if !idUsers.contains(authorID) {
                     idUsers = idUsers + authorID + ","
@@ -110,6 +138,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
                     comletion(namesDictionary)
                 }
             }
+        } else{
+            comletion([:])
         }
     }
     
@@ -140,6 +170,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
                     comletion(namesDictionary)
                 }
             }
+        } else {
+            comletion([:])
         }
     }
     

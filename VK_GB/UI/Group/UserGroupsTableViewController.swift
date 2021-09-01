@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import PromiseKit
 
 class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate {
     private var userGroups = [Group]()
@@ -14,6 +15,7 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     private var isSearch = false
     @IBOutlet weak var searchBar: UISearchBar!
     private let apiService = APIService()
+    private let apiServicePMK = APIServicePMK()
     private let realmService = RealmService()
     private let countLoadGroups = "COUNT_LOAD_GROUPS"
     private var realmNotificationToken: NotificationToken?
@@ -35,24 +37,27 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        loadGroups {
-            let userGroupsRealm = self.realmService.getGroups()
-            self.userGroups = Array(userGroupsRealm)
-            self.realmNotificationToken = userGroupsRealm.observe({ (changes: RealmCollectionChange) in
-                switch changes {
-                case .initial(_):
-                        self.tableView.reloadData()
-                    case let .update(_, deletions, insertions, modifications):
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
-                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-                        self.tableView.endUpdates()
-                case .error(let error):
-                    print(error)
-                }
-            })
-        }   
+//        loadGroups {
+//            let userGroupsRealm = self.realmService.getGroups()
+//            self.userGroups = Array(userGroupsRealm)
+//            self.realmNotificationToken = userGroupsRealm.observe({ (changes: RealmCollectionChange) in
+//                switch changes {
+//                case .initial(_):
+//                        self.tableView.reloadData()
+//                    case let .update(_, deletions, insertions, modifications):
+//                        self.tableView.beginUpdates()
+//                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+//                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+//                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+//                        self.tableView.endUpdates()
+//                case .error(let error):
+//                    print(error)
+//                }
+//            })
+//        }
+        DispatchQueue.global().async {
+            self.loadGroupPMK()
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -100,6 +105,19 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
         }
     }
     
+    private func loadGroupPMK() {
+        firstly {
+            apiServicePMK.getGroups()
+        }.map { arrGr in
+            DispatchQueue.main.async {
+                self.userGroups = arrGr
+                self.tableView.reloadData()
+            }
+        }.catch { err in
+            print(err)
+        }
+    }
+    
     private func loadGroups(comlition: @escaping()->()) {
         //грузим каждую 3-ю загрузку или когда база пустая
         var cnt = UserDefaults.standard.integer(forKey: countLoadGroups)
@@ -113,6 +131,5 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
         } else {
             comlition()
         }
-        
     }
 }
