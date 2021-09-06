@@ -21,6 +21,9 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
     private let realmService = RealmService()
     private let countLoadFriends = "COUNT_LOAD_FRIENDS"
     private var realmNotificationToken: NotificationToken?
+    private let userViewModelFactory = UserViewModelFactory()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +49,10 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
             self.arrFirstLetter = fillFakeData.arrFirstChar(arrFriends: Array(arrFriends))
             self.letterControl.arrLetters = self.arrFirstLetter
             self.letterControl.delegate = self
+            let arrUserViewModel = self.userViewModelFactory.constructViewModels(from: Array(arrFriends))
             for letter in self.arrFirstLetter {
                 let key = letter
-                let value = FriendSectionHeader(letter, self.filterFriendByLetter(Array(arrFriends), letter))
+                let value = FriendSectionHeader(letter, self.filterFriendByLetter(arrUserViewModel, letter))
                 self.friendsDictionary[key] = value
             }
         }
@@ -69,7 +73,8 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         let index = indexPath.row
         let letter = arrFirstLetter[section]
         guard let friend = friendsDictionary[letter]?.arrFriends[index] else { return cell}
-        cell.configure(friend: friend)
+//        cell.configure(friend: friend)
+        cell.configure(user: friend)
         return cell
     }
     
@@ -103,12 +108,12 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
-    private func filterFriendByLetter(_ arr: [User], _ letter: String) -> [User] {
-        return arr.filter({ String($0.firstName.first ?? "*") == letter })
+    private func filterFriendByLetter(_ arr: [UserViewModel], _ letter: String) -> [UserViewModel] {
+        return arr.filter({ String($0.fullName.first ?? "*") == letter })
         
     }
     
-    private func loadUsers(comlition: @escaping()->()) {
+    private func loadUsers(comletion: @escaping()->()) {
         //грузим каждую 3-ю загрузку или когда база пустая
         var cnt = UserDefaults.standard.integer(forKey: countLoadFriends)
         cnt = cnt + 1 == 3 ? 0 : cnt + 1
@@ -118,11 +123,11 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
             apiService.getFriends { users in
                 OperationQueue.main.addOperation {
                     self.realmService.addUsers(users: users)
-                    comlition()
+                    comletion()
                 }
             }
         } else {
-            comlition()
+            comletion()
         }
         
     }

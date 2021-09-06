@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B619F19E26E65A93008F9064 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B619F19D26E65A93008F9064 /* UserViewModel.swift */; };
+		B619F1A126E65B39008F9064 /* UserViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B619F1A026E65B39008F9064 /* UserViewModelFactory.swift */; };
 		B61E53C526393FBD00D215D3 /* UserGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61E53C426393FBD00D215D3 /* UserGroupsTableViewController.swift */; };
 		B61E53C82639442700D215D3 /* UserGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61E53C72639442700D215D3 /* UserGroupTableViewCell.swift */; };
 		B62DE8B1263B199200EFA31F /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DE8B0263B199200EFA31F /* FriendsTableViewController.swift */; };
@@ -40,6 +42,8 @@
 		B6B62EA92648764C0053158C /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B62EA82648764C0053158C /* Comment.swift */; };
 		B6B7DB64267B86B20006B725 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B7DB63267B86B20006B725 /* Session.swift */; };
 		B6C27E8426C1CA54005F7145 /* APIServicePMK.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C27E8326C1CA54005F7145 /* APIServicePMK.swift */; };
+		B6C6687126E006D5001E8E93 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C6687026E006D5001E8E93 /* UIColor.swift */; };
+		B6C6687426E00BF4001E8E93 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C6687326E00BF4001E8E93 /* UIImage.swift */; };
 		B6C8AFF02632D99C0040654B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C8AFEF2632D99C0040654B /* AppDelegate.swift */; };
 		B6C8AFF22632D99C0040654B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C8AFF12632D99C0040654B /* SceneDelegate.swift */; };
 		B6C8AFF92632D99D0040654B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6C8AFF82632D99D0040654B /* Assets.xcassets */; };
@@ -76,6 +80,8 @@
 		4DE54F22FBE3532F4AD31863 /* Pods-VK_GB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK_GB.debug.xcconfig"; path = "Target Support Files/Pods-VK_GB/Pods-VK_GB.debug.xcconfig"; sourceTree = "<group>"; };
 		A757E66E628AE3898CB7CBFC /* Pods-VK_GB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK_GB.release.xcconfig"; path = "Target Support Files/Pods-VK_GB/Pods-VK_GB.release.xcconfig"; sourceTree = "<group>"; };
 		A909A8D90F9115002F3C2947 /* Pods_VK_GB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VK_GB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B619F19D26E65A93008F9064 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		B619F1A026E65B39008F9064 /* UserViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelFactory.swift; sourceTree = "<group>"; };
 		B61E53C426393FBD00D215D3 /* UserGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupsTableViewController.swift; sourceTree = "<group>"; };
 		B61E53C72639442700D215D3 /* UserGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupTableViewCell.swift; sourceTree = "<group>"; };
 		B62DE8B0263B199200EFA31F /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +115,8 @@
 		B6B62EA82648764C0053158C /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B6B7DB63267B86B20006B725 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		B6C27E8326C1CA54005F7145 /* APIServicePMK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServicePMK.swift; sourceTree = "<group>"; };
+		B6C6687026E006D5001E8E93 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		B6C6687326E00BF4001E8E93 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		B6C8AFEC2632D99C0040654B /* VK_GB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VK_GB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C8AFEF2632D99C0040654B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6C8AFF12632D99C0040654B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +174,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B619F19F26E65B23008F9064 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				B619F1A026E65B39008F9064 /* UserViewModelFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		B689D33C267FBF1E001E466B /* LoginWebView */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				B6A7E03E268726A2009084D5 /* Data.swift */,
+				B6C6687026E006D5001E8E93 /* UIColor.swift */,
+				B6C6687326E00BF4001E8E93 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -231,6 +249,7 @@
 		B6C8AFEE2632D99C0040654B /* VK_GB */ = {
 			isa = PBXGroup;
 			children = (
+				B619F19F26E65B23008F9064 /* Factory */,
 				B6E4C7F326B9931000E34C36 /* Operation */,
 				B6A7E03D2687268B009084D5 /* Extension */,
 				B689D33F26806865001E466B /* Services */,
@@ -350,6 +369,7 @@
 				B6DE7DB42639D070000A2554 /* SubjectMatter.swift */,
 				B6DE7DB72639D2E8000A2554 /* FillFakeData.swift */,
 				B62DE8B6263B1CE800EFA31F /* User.swift */,
+				B619F19D26E65A93008F9064 /* UserViewModel.swift */,
 				B6E2164826472FED0074F050 /* FriendSectionHeader.swift */,
 				B6534BFD26413269001D77D0 /* Like.swift */,
 				B6D1E71826400EAC0061F336 /* Photo.swift */,
@@ -548,6 +568,7 @@
 				B689D33E267FBF49001E466B /* LoginWebViewViewController.swift in Sources */,
 				B6E1122E2645528200558894 /* ParallaxView.swift in Sources */,
 				B6CA5C08265559AD00055229 /* NavigationAnimator.swift in Sources */,
+				B619F19E26E65A93008F9064 /* UserViewModel.swift in Sources */,
 				B6E4336526486EB4005BBA3E /* NewsTableViewCell.swift in Sources */,
 				B6E4C7F526B9933A00E34C36 /* AsyncOperation.swift in Sources */,
 				B6DE7DBB2639E7F5000A2554 /* GlobalGroupsTableViewController.swift in Sources */,
@@ -564,6 +585,7 @@
 				B62DE8B1263B199200EFA31F /* FriendsTableViewController.swift in Sources */,
 				B6A7CD62264C5F9000FDAB8B /* SearchBarControl.swift in Sources */,
 				B68C3E4B2656BD4C00BA386E /* CloseInteractiveTransition.swift in Sources */,
+				B6C6687126E006D5001E8E93 /* UIColor.swift in Sources */,
 				B62DE8B7263B1CE800EFA31F /* User.swift in Sources */,
 				B6D9C51E26499A2E00676EC8 /* EyeControl.swift in Sources */,
 				B6DE7DB52639D070000A2554 /* SubjectMatter.swift in Sources */,
@@ -575,9 +597,11 @@
 				B6A4982B26A89F0F00771DFD /* NewsAuthorTableViewCell.swift in Sources */,
 				B6A4982F26A8A31E00771DFD /* NewsImageTableViewCell.swift in Sources */,
 				B6D1E71926400EAC0061F336 /* Photo.swift in Sources */,
+				B6C6687426E00BF4001E8E93 /* UIImage.swift in Sources */,
 				B6CA5C0C2655916D00055229 /* AnhorPoint.swift in Sources */,
 				B6C27E8426C1CA54005F7145 /* APIServicePMK.swift in Sources */,
 				B6B4C07726406E4100287DE7 /* LoginFormViewController.swift in Sources */,
+				B619F1A126E65B39008F9064 /* UserViewModelFactory.swift in Sources */,
 				B6763B7D26A42E3E008CC612 /* ApiError.swift in Sources */,
 				B654B90726407C9200A273BC /* LikePhoto.swift in Sources */,
 				B62DE8BC263B1DA500EFA31F /* Status.swift in Sources */,

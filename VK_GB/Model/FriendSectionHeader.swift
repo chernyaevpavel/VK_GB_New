@@ -8,15 +8,15 @@
 struct FriendSectionHeader {
     let letter: String
     var isDetaling: Bool
-    var arrFriends: [User]
+    var arrFriends: [UserViewModel]
     
-    init(_ letter: String, _ isDetaling: Bool, _ arrFriends: [User]) {
+    init(_ letter: String, _ isDetaling: Bool, _ arrFriends: [UserViewModel]) {
         self.letter = letter
         self.isDetaling = isDetaling
         self.arrFriends = arrFriends
     }
     
-    init(_ letter: String, _ arrFriends: [User]) {
+    init(_ letter: String, _ arrFriends: [UserViewModel]) {
         self.init(letter, true, arrFriends)
     }
 }

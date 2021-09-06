@@ -32,7 +32,7 @@ class UserGroupTableViewCell: UITableViewCell {
                 self.groupImage.image = UIImage(data: data)
             }
         } else {
-            groupImage.image = UIImage(named: "no-image")
+            groupImage.image = UIImage.placeholderImage
         }
         groupImage.layer.cornerRadius = groupImage.frame.size.width / 2
         groupImage.layer.masksToBounds = true

@@ -33,13 +33,13 @@ class NewsImageTableViewCell: UITableViewCell {
             let photo = news.images[0]
             if let strUrl = photo.photo1280,
                let url = URL(string: strUrl) {
-                newsImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "no-image"))
+                newsImageView.sd_setImage(with: url, placeholderImage: UIImage.placeholderImage)
             } else {
-                newsImageView.image = UIImage(named: "no-image")!
+                newsImageView.image = UIImage.placeholderImage!
             }
             
         } else {
-            newsImageView.image = UIImage(named: "no-image")!
+            newsImageView.image = UIImage.placeholderImage!
         }
     }
 }

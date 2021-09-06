@@ -30,7 +30,7 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell, ChangeStatusLikeProto
         
         guard let strURL = photo.photo807 else { return }
         guard let url = URL(string: strURL) else { return }
-        self.photo.sd_setImage(with: url, placeholderImage: UIImage(named: "no-image"))
+        self.photo.sd_setImage(with: url, placeholderImage: UIImage.placeholderImage)
     }
     
     func changeStatusLike(status: Bool) {

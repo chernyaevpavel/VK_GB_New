@@ -10,7 +10,7 @@ import UIKit
 class CommentControl: UIControl {
     private let commentButton = UIButton()
     private let commentsCountLabel = UILabel()
-    private let imageComment = UIImage(systemName: "bubble.left")
+    private let imageComment = UIImage.bubbleLeft
     
     var commentsCount: Int = 0 {
         didSet {

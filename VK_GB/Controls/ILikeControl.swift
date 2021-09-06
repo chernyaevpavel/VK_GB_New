@@ -18,8 +18,8 @@ protocol ChangeStatusLikeObjectProtocol: AnyObject {
 class ILikeControl: UIControl {
     private let buttonHeart = UIButton()
     private let counterLikeView = UILabel()
-    private let imageHeartFill = UIImage(systemName: "heart.fill")
-    private let imageHeart = UIImage(systemName: "heart")
+    private let imageHeartFill = UIImage.heartFill
+    private let imageHeart = UIImage.heart
     
     var countLike = 0 {
         didSet {
