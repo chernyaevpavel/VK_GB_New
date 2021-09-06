@@ -15,7 +15,7 @@ class EyeControl: UIControl {
             setupView()
         }
     }
-    static let eyeImage = UIImage(systemName: "eye")
+    static let eyeImage = UIImage.eye
     
     func setupView() {
         backgroundColor = .none

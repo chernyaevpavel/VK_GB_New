@@ -18,16 +18,10 @@ class FriendViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(friend: User){
-        self.name.text = "\(friend.firstName) \(friend.lastName)"
-        self.status.text = friend.status.rawValue
-        switch friend.status {
-        case .onLine:
-            self.status.textColor = UIColor(named: "colorDarkGreen")
-        case .offLine:
-            self.status.textColor = .red
-        }
-        
-        self.avatar.avatarImage.sd_setImage(with: URL(string: friend.photo200_Orig!), placeholderImage: UIImage(named: "no-image"))
+    func configure(user: UserViewModel){
+        self.name.text = user.fullName
+        self.status.text = user.status
+        self.status.textColor = user.statusColor
+        self.avatar.avatarImage.sd_setImage(with: user.url, placeholderImage: UIImage.placeholderImage)
     }
 }

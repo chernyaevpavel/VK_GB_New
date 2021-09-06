@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class RealmService {
-    private let config = Realm.Configuration(schemaVersion: 5)
+    private let config = Realm.Configuration(schemaVersion: 6)
     lazy var realm = try! Realm(configuration: config)
     
     func getPathDatabase() -> URL? {

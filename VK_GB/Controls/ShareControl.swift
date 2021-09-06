@@ -10,7 +10,7 @@ import UIKit
 class ShareControl: UIControl {
     private let shareButton = UIButton()
     private let shareCountLabel = UILabel()
-    private let imageShare = UIImage(systemName: "arrowshape.turn.up.right")
+    private let imageShare = UIImage.arrowshapeTurnUpRight
     
     var shareCount: Int = 0 {
         didSet {
