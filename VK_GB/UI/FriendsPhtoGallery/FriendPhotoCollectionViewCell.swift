@@ -13,7 +13,6 @@ class FriendPhotoCollectionViewCell: UICollectionViewCell, ChangeStatusLikeProto
     @IBOutlet weak private var likeControl: ILikeControl!
     private var likePhoto: Photo?
     weak var delegate: ChangeStatusLikeObjectProtocol?
-    private let apiService = APIService()
     
     override func prepareForReuse() {
         photo.image = nil

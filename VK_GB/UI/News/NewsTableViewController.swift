@@ -88,8 +88,9 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func loadNews() {
-        let api = APIService()
-        api.getNews { result in
+        let apiService = APIService()
+        let apiServiceProxy = APIServiceProxy(apiService)
+        apiServiceProxy.getNews { result in
             switch result {
             case .failure(let error):
                 self.alertError(text: error.description)
@@ -119,6 +120,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func getNamesUsers(arrNews: [News], comletion: @escaping([String: String]) -> ()) {
         let apiService = APIService()
+        let apiServiceProxy = APIServiceProxy(apiService)
         var idUsers = ""
         for new in arrNews {
             let authorID = new.author
@@ -130,7 +132,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         if !idUsers.isEmpty {
-            apiService.getUserName(userID: idUsers) { result in
+            apiServiceProxy.getUserName(userID: idUsers) { result in
                 switch result {
                 case .failure(let err):
                     print(err)
@@ -145,6 +147,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func getNamesGroup(arrNews: [News], comletion: @escaping([String: String]) -> ()) {
         let apiService = APIService()
+        let apiServiceProxy = APIServiceProxy(apiService)
         var idGroups = ""
         var idUsers = ""
         for new in arrNews {
@@ -162,7 +165,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         if !idGroups.isEmpty {
-            apiService.getGroupName(groupID: idGroups) { result in
+            apiServiceProxy.getGroupName(groupID: idGroups) { result in
                 switch result {
                 case .failure(let err):
                     print(err)
