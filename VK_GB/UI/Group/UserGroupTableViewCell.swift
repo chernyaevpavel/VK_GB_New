@@ -13,6 +13,7 @@ class UserGroupTableViewCell: UITableViewCell {
     @IBOutlet weak private var groupDescription: UILabel!
     @IBOutlet weak private var groupImage: UIImageView!
     private let apiService = APIService()
+    lazy private var apiServiceProxy = APIServiceProxy(apiService)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +29,7 @@ class UserGroupTableViewCell: UITableViewCell {
     
         if let avatar = group.photo200 {
             let url = URL(string: avatar)
-            apiService.downloadImage(from: url!) { data in
+            apiServiceProxy.downloadImage(from: url!) { data in
                 self.groupImage.image = UIImage(data: data)
             }
         } else {

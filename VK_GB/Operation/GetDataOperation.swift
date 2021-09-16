@@ -23,7 +23,8 @@ class GetDataOperation: AsyncOperation {
     init(_ path: String, _ queryItems: [URLQueryItem]) {
         super.init()
         let apiService = APIService()
-        guard let urlConstructor = apiService.makeURLConstructor(path, queryItems) else { return }
+        let apiServiceProxy = APIServiceProxy(apiService)
+        guard let urlConstructor = apiServiceProxy.makeURLConstructor(path, queryItems) else { return }
         let configuration = URLSessionConfiguration.default
         let session =  URLSession(configuration: configuration)
         self.task = session.dataTask(with: urlConstructor.url!) {[weak self] (data, response, error) in

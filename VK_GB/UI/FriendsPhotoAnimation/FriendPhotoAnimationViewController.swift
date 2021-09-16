@@ -19,7 +19,7 @@ class FriendPhotoAnimationViewController: UIViewController {
     weak var closeInteractiveTransitionDelegate: CloseInteractiveTransition?
     private var isDownSwipe = false
     private var isBeganGesture = false
-        private let apiService = APIService()
+//    private let apiService = APIService()
     
     @objc func onPan(_ recognizer: UIPanGestureRecognizer){
         let width: CGFloat = self.view.frame.width

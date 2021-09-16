@@ -9,7 +9,18 @@ import Foundation
 import Alamofire
 import DynamicJSON
 
-class APIService {
+protocol APIServiceProtocol {
+    func getFriends(completion: @escaping([User])->())
+    func getGroups(completion: @escaping([Group])->())
+    func getPhotos(ownerID: String, completion: @escaping([Photo])->())
+    func getNews(completion: @escaping(Result<[News], ApiError>)->())
+    func makeURLConstructor(_ path: String, _ queryItems: [URLQueryItem]) -> URLComponents?
+    func downloadImage(from url: URL, completion: @escaping(Data) -> ())
+    func getUserName(userID: String, completion: @escaping(Result<[String: String], ApiError>)->())
+    func getGroupName(groupID: String, completion: @escaping(Result<[String: String], ApiError>)->())
+}
+
+class APIService: APIServiceProtocol {
     private let sheme = "https"
     private let host = "api.vk.com"
     private let versionAPI = "5.131"

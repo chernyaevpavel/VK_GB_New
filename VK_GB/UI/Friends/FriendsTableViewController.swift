@@ -18,6 +18,7 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var letterControl: SelectLetterControl!
     lazy private var apiService = APIService()
+    lazy private var apiServiceProxy = APIServiceProxy(apiService)
     private let realmService = RealmService()
     private let countLoadFriends = "COUNT_LOAD_FRIENDS"
     private var realmNotificationToken: NotificationToken?
@@ -120,7 +121,7 @@ class FriendsTableViewController: UIViewController, UITableViewDelegate, UITable
         UserDefaults.standard.set(cnt, forKey: countLoadFriends)
         cnt = 0 //заглушка для тестов
         if realmService.getUsers().isEmpty || cnt == 0 {
-            apiService.getFriends { users in
+            apiServiceProxy.getFriends { users in
                 OperationQueue.main.addOperation {
                     self.realmService.addUsers(users: users)
                     comletion()

@@ -15,6 +15,7 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     private var isSearch = false
     @IBOutlet weak var searchBar: UISearchBar!
     private let apiService = APIService()
+    lazy private var apiServiceProxy = APIServiceProxy(apiService)
     private let apiServicePMK = APIServicePMK()
     private let realmService = RealmService()
     private let countLoadGroups = "COUNT_LOAD_GROUPS"
@@ -37,24 +38,6 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-//        loadGroups {
-//            let userGroupsRealm = self.realmService.getGroups()
-//            self.userGroups = Array(userGroupsRealm)
-//            self.realmNotificationToken = userGroupsRealm.observe({ (changes: RealmCollectionChange) in
-//                switch changes {
-//                case .initial(_):
-//                        self.tableView.reloadData()
-//                    case let .update(_, deletions, insertions, modifications):
-//                        self.tableView.beginUpdates()
-//                        self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-//                        self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
-//                        self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-//                        self.tableView.endUpdates()
-//                case .error(let error):
-//                    print(error)
-//                }
-//            })
-//        }
         DispatchQueue.global().async {
             self.loadGroupPMK()
         }
@@ -124,7 +107,7 @@ class UserGroupsTableViewController: UITableViewController, UISearchBarDelegate 
         cnt = cnt + 1 == 3 ? 0 : cnt + 1
         UserDefaults.standard.set(cnt, forKey: countLoadGroups)
         if realmService.getGroups().isEmpty || cnt == 0 {
-            apiService.getGroups(completion: { groups in
+            apiServiceProxy.getGroups(completion: { groups in
                 self.realmService.addGroups(groups: groups)
                 comlition()
             })
