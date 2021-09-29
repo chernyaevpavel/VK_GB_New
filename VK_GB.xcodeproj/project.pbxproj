@@ -74,6 +74,7 @@
 		B6E4C7F526B9933A00E34C36 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F426B9933A00E34C36 /* AsyncOperation.swift */; };
 		B6E4C7F726B993E400E34C36 /* GetDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F626B993E400E34C36 /* GetDataOperation.swift */; };
 		B6E4C7F926B998E800E34C36 /* ParseDataToUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E4C7F826B998E800E34C36 /* ParseDataToUsers.swift */; };
+		B6E542BB2704F09900830F76 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E542BA2704F09900830F76 /* ContentView.swift */; };
 		B6F91471269B377C0044CFE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6F91470269B377C0044CFE2 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		B6E4C7F426B9933A00E34C36 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		B6E4C7F626B993E400E34C36 /* GetDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDataOperation.swift; sourceTree = "<group>"; };
 		B6E4C7F826B998E800E34C36 /* ParseDataToUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseDataToUsers.swift; sourceTree = "<group>"; };
+		B6E542BA2704F09900830F76 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6F91470269B377C0044CFE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,6 +254,7 @@
 		B6C8AFEE2632D99C0040654B /* VK_GB */ = {
 			isa = PBXGroup;
 			children = (
+				B6E542B92704F07800830F76 /* SwiftUI */,
 				B619F19F26E65B23008F9064 /* Factory */,
 				B6E4C7F326B9931000E34C36 /* Operation */,
 				B6A7E03D2687268B009084D5 /* Extension */,
@@ -429,6 +432,14 @@
 			path = Operation;
 			sourceTree = "<group>";
 		};
+		B6E542B92704F07800830F76 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				B6E542BA2704F09900830F76 /* ContentView.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		F0DE0901FBAA03165532FA5C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -584,6 +595,7 @@
 				B689D3412680687D001E466B /* APIService.swift in Sources */,
 				B6534C022641A4C8001D77D0 /* SelectLetterControl.swift in Sources */,
 				B6B4C07326406C0900287DE7 /* FriendPhotosCollectionViewController.swift in Sources */,
+				B6E542BB2704F09900830F76 /* ContentView.swift in Sources */,
 				B6B62EA92648764C0053158C /* Comment.swift in Sources */,
 				B6467F8F264BCC5500F2C531 /* LoadIndicatorView.swift in Sources */,
 				B62DE8B1263B199200EFA31F /* FriendsTableViewController.swift in Sources */,
