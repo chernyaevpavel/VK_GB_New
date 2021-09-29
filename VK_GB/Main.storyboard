@@ -9,6 +9,56 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Друзья 2-->
+        <scene sceneID="Yyb-UF-QVc">
+            <objects>
+                <viewController id="J49-yc-3AS" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0oo-Qw-qUN">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Q52-GI-bIV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Друзья 2" image="arrowshape.turn.up.backward.fill" catalog="system" id="RuU-1P-XhN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Bt-7b-pvS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-498" y="-2074"/>
+        </scene>
+        <!--Друзья-->
+        <scene sceneID="CPn-Dm-vRg">
+            <objects>
+                <viewController title="Друзья" id="rgr-tg-DyJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3F7-lM-CD2">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ajg-Vj-wHF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Друзья" image="person.fill" catalog="system" id="agt-IB-lI6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mDw-vQ-aeu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-498" y="-2681"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="4UV-KB-6hb">
+            <objects>
+                <tabBarController id="MaY-PG-fnp" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iJO-Al-hTn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="rgr-tg-DyJ" kind="relationship" relationship="viewControllers" id="DC4-pi-Fow"/>
+                        <segue destination="J49-yc-3AS" kind="relationship" relationship="viewControllers" id="f2f-w2-Gf2"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pUy-ql-gzZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1376" y="-2379"/>
+        </scene>
         <!--Login Web View View Controller-->
         <scene sceneID="sxg-ig-dgl">
             <objects>
@@ -693,12 +743,14 @@
     </scenes>
     <resources>
         <image name="VK_Blue_Logo-60x60" width="60" height="60"/>
+        <image name="arrowshape.turn.up.backward.fill" catalog="system" width="128" height="106"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>
         <image name="newspaper.fill" catalog="system" width="128" height="111"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.2.fill" catalog="system" width="128" height="80"/>
         <image name="person.3" catalog="system" width="128" height="62"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
